@@ -36,10 +36,7 @@ def scra_sites(message,sites):
     site_url  = f'https://www.sudancareers.com/job-vacancies-search-sudan/{keyword}?'
     print(f'Searching sudancareers at {site_url}')
     html_text = requests.get(site_url).text
-    print(html_text)
     soup = BeautifulSoup(html_text,'lxml')
-    print(' end of html_text')
-    print(soup)
     jobs = soup.find_all('div',class_='job-description-wrapper',limit=1)
     for job in jobs:
       job_title = job.find('h5').text.strip()
