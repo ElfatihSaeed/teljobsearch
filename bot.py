@@ -9,6 +9,7 @@ from flask import Flask, request
 
 load_dotenv()
 
+
 API_KEY = os.getenv('API_KEY')
 bot = telebot.TeleBot(API_KEY)
 server = Flask(__name__)
@@ -35,6 +36,7 @@ def scra_sites(message,sites):
     site_url  = f'https://www.sudancareers.com/job-vacancies-search-sudan/{keyword}?'
     print(f'Searching sudancareers at {site_url}')
     html_text = requests.get(site_url).text
+    print(html_text)
     soup = BeautifulSoup(html_text,'lxml')
     jobs = soup.find_all('div',class_='job-description-wrapper',limit=1)
     for job in jobs:
