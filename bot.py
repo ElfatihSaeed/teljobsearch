@@ -38,6 +38,7 @@ def scra_sites(message,sites):
     html_text = requests.get(site_url).text
     print(html_text)
     soup = BeautifulSoup(html_text,'lxml')
+    print(' end of html_text')
     print(soup)
     jobs = soup.find_all('div',class_='job-description-wrapper',limit=1)
     for job in jobs:
