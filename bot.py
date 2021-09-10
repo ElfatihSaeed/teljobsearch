@@ -182,6 +182,22 @@ def send_jobs(message):
   scra_sites(message,sites)
 
 
+def daily():
+  sites = ['sudancareers','orooma']
+  subs = get_subscribers()
+  for sub in subs:
+    sub_id = sub[0]
+    sub_jobs = sub[4].split(',')
+    print(sub_id,sub_jobs)
+    search_send_jobs(sub_id,sub_jobs,sites)
+
+
+schedule.every(1).minutes.do(daily)
+
+while True:
+    schedule.run_pending()
+    time.sleep(1)
+
 @server.route('/' + API_KEY, methods=['POST'])
 def getMessage():
     json_string = request.get_data().decode('utf-8')
@@ -200,20 +216,6 @@ def webhook():
 if __name__ == "__main__":
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
 
-def daily():
-  sites = ['sudancareers','orooma']
-  subs = get_subscribers()
-  for sub in subs:
-    sub_id = sub[0]
-    sub_jobs = sub[4].split(',')
-    print(sub_id,sub_jobs)
-    search_send_jobs(sub_id,sub_jobs,sites)
 
-
-schedule.every(2).minutes.do(daily)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
 # bot.remove_webhook()
 # bot.polling()
