@@ -38,7 +38,7 @@ def start(message):
 @bot.message_handler(commands=['Unsubscribe'])
 def unsubscribe(message):
     print(message.text)
-    mng_sub = f'delete from tbl_subscribers where sub_chat_id = {message.chat.id}'
+    mng_sub = f"delete from tbl_subscribers where sub_chat_id = '{message.chat.id}'"
     manage_sub(message,mng_sub) 
     bot.send_message(message.chat.id,'Unsubscribed succsesfully\nto subscribe again please send \n/Subscribe')
 
@@ -52,7 +52,8 @@ def subscribe(message):
 
 def ck1(message):
     if not message.text.startswith("/"):
-        mng_sub = f'replace into tbl_subscribers(sub_chat_id,jobs) values({message.chat.id},"{message.text}")'
+        # mng_sub = f'replace into tbl_subscribers(sub_chat_id,jobs) values({message.chat.id},"{message.text}")'
+        mng_sub = f"INSERT INTO tbl_subscribers (sub_chat_id,jobs) VALUES ({message.chat.id},'{message.text}') ON CONFLICT (sub_chat_id) DO UPDATE SET jobs = excluded.jobs;"
         manage_sub(message,mng_sub)
     bot.send_message(message.chat.id,f'"{message.text}"\nis your watch list now,\nto change please send /Change\nto unsubscribe please \nsend /Unsubscribe')
 
