@@ -27,7 +27,7 @@ def manage_sub(message,stmnt):
 
 
 
-wlcm_msg = "!\nWelcome to @sudanjobsearch_bot.\nWould you like to subscribe to daily report?\n/Subscribe\n/help - Print help message"
+wlcm_msg = "!\nWelcome to @sudanjobsearch_bot.\nWould you like to subscribe to weekly report?\n/Subscribe\n/help - Print help message"
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -107,7 +107,7 @@ def scra_sites(message,sites):
       except :
         print("Unexpected error:", sys.exc_info()[0],'\n')
   
-  bot.send_message(message.chat.id,'To subscribe to daily report\n send /Subscribe')      
+  bot.send_message(message.chat.id,'To subscribe to weekly report\n send /Subscribe')      
 
 
 @bot.message_handler()
