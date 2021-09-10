@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 from dotenv import load_dotenv
 from flask import Flask, request
+import sqlite3
 
 
 load_dotenv()
@@ -16,16 +17,43 @@ server = Flask(__name__)
 
 
 
-@bot.message_handler(commands=['hello'])
-def hello(message):
-  bot.send_message(message.chat.id, "Hello!")
+def manage_sub(message,stmnt):
+  conn = sqlite3.connect('sudanjobsearch.db')
+  cur = conn.cursor()
+  cur.execute(stmnt)        
+  conn.commit()
+  cur.close()
+  conn.close()
 
-wlcm_msg = "!\nWelcome to @sudanjobsearch_bot.\nPlease send the job you are looking for"
+
+
+wlcm_msg = "!\nWelcome to @sudanjobsearch_bot.\nWould you like to subscribe to daily report?\n/Subscribe\n/help - Print help message"
 
 @bot.message_handler(commands=['start'])
 def start(message):
     bot.send_message(message.chat.id,wlcm_msg)
     
+@bot.message_handler(commands=['Unsubscribe'])
+def unsubscribe(message):
+    print(message.text)
+    mng_sub = f'delete from tbl_subscribers where sub_chat_id = {message.chat.id}'
+    manage_sub(message,mng_sub) 
+    bot.send_message(message.chat.id,'Unsubscribed succsesfully\nto subscribe again please send \n/Subscribe')
+
+    
+@bot.message_handler(commands=['Change'])
+@bot.message_handler(commands=['Subscribe'])
+def subscribe(message):
+    print(message.text)
+    msg = bot.send_message(message.chat.id, "Ok, Please write jobs seperated by commas")
+    bot.register_next_step_handler(msg, ck1)
+
+def ck1(message):
+    if not message.text.startswith("/"):
+        mng_sub = f'replace into tbl_subscribers(sub_chat_id,jobs) values({message.chat.id},"{message.text}")'
+        manage_sub(message,mng_sub)
+    bot.send_message(message.chat.id,f'"{message.text}"\nis your watch list now,\nto change please send /Change\nto unsubscribe please \nsend /Unsubscribe')
+
 
 
 def scra_sites(message,sites):
@@ -78,6 +106,8 @@ def scra_sites(message,sites):
         bot.send_message(message.chat.id,jobs_list,parse_mode = "html",disable_web_page_preview=True)
       except :
         print("Unexpected error:", sys.exc_info()[0],'\n')
+  
+  bot.send_message(message.chat.id,'To subscribe to daily report\n send /Subscribe')      
 
 
 @bot.message_handler()
@@ -103,3 +133,6 @@ def webhook():
 
 if __name__ == "__main__":
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+
+# bot.remove_webhook()
+# bot.polling()
