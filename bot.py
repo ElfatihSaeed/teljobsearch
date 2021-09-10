@@ -13,6 +13,7 @@ load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
 bot = telebot.TeleBot(API_KEY)
+DATABASE_URL = os.getenv('DATABASE_URL')
 server = Flask(__name__)
 
 
