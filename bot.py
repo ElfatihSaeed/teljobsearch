@@ -6,7 +6,7 @@ import requests
 from dotenv import load_dotenv
 from flask import Flask, request
 import sqlite3
-
+import psycopg2
 
 load_dotenv()
 
@@ -18,7 +18,8 @@ server = Flask(__name__)
 
 
 def manage_sub(message,stmnt):
-  conn = sqlite3.connect('sudanjobsearch.db')
+  # conn = sqlite3.connect('sudanjobsearch.db')
+  conn = psycopg2.connect(DATABASE_URL, sslmode='require')
   cur = conn.cursor()
   cur.execute(stmnt)        
   conn.commit()
