@@ -32,8 +32,7 @@ def manage_sub(message,stmnt):
 
 
 def chat_log(message):
-  log_stmnt=f"insert into tbl_chat_log(chat_id,chat_text,dtime) values({message.chat.id},'{message.text}','{dtime}')" 
-  print(log_stmnt)   
+  log_stmnt=f"insert into tbl_chat_log(chat_id,chat_text,dtime) values({message.chat.id},'{message.text}','{dtime}')"   
   manage_sub(message,log_stmnt)
 
 @bot.message_handler(commands=['start'])
