@@ -38,7 +38,7 @@ def chat_log(message):
 @bot.message_handler(commands=['start'])
 def start(message):
   print(message.text)
-  chat_log(message)
+  # chat_log(message)
   bot.send_message(message.chat.id,wlcm_msg)
 
     
