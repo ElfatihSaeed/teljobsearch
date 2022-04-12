@@ -145,7 +145,7 @@ def search_send_jobs(user_id,keywords,sites):
         except :
           print("Unexpected error:", sys.exc_info()[0],'\n')
       
-  bot.send_message(user_id,'To subscribe for a weekly report\n send /Subscribe')      
+  bot.send_message(user_id,'To subscribe for a daily report\n send /Subscribe')      
 
 
 @bot.message_handler()
