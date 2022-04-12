@@ -17,7 +17,7 @@ API_KEY = os.getenv('API_KEY')
 bot = telebot.TeleBot(API_KEY)
 DATABASE_URL = os.getenv('DATABASE_URL')
 server = Flask(__name__)
-dtime = datetime.now()
+
 
 wlcm_msg = "Welcome to @sudanjobsearch_bot.\nPlease send jobs names seperated by commas.\nIf you would you like to subscribe for a weekly report please send\n/Subscribe\n/help - Print help message"
 
@@ -119,12 +119,38 @@ def search_send_jobs(user_id,keywords,sites):
           bot.send_message(user_id,jobs_list,parse_mode = "html",disable_web_page_preview=True)
         except :
           print("Unexpected error:", sys.exc_info()[0],'\n')
+
+    if 'sudanjob' in sites:
+      jobs_list = ''
+      site_url = f'https://www.sudanjob.net/' 
+      print(f'Searching sudanjob at {site_url}')
+      html_text = requests.get(site_url).text
+      soup = BeautifulSoup(html_text,'lxml')
+      jobs = soup.find_all('td' ,class_="module flex-module")
+      for job in jobs:
+        job_title = job.find('a',class_='a_homelist').text.strip()
+        company_name = job.find('font',class_='sudanjob_orang_color').text.strip()
+        location = job.find('div',align="left").text.split(' ')[4].strip()
+        job_details = job.find('a',class_='btn_class')['href']
+        if job_title == keyword:
+          jobs_list +=  f'Job Title   : {job_title}\n' + \
+                        f'Company  : {company_name}\n' +  \
+                        f'Location  : {location}\n' +  \
+                        f'<a href="{job_details}">More Details</a> \n' 
+      print(jobs_list)
+      print(f'Done searching sudanjob\n')
+      if jobs_list != '':
+        try:
+          bot.send_message(user_id,jobs_list,parse_mode = "html",disable_web_page_preview=True)
+        except :
+          print("Unexpected error:", sys.exc_info()[0],'\n')
+      
   bot.send_message(user_id,'To subscribe for a weekly report\n send /Subscribe')      
 
 
 @bot.message_handler()
 def send_jobs(message):  
-  sites = ['sudancareers','orooma']
+  sites = ['sudancareers','orooma','sudanjob']
   chat_id = message.chat.id
   chat_jobs = message.text.split(',')
   print(chat_id,chat_jobs)
