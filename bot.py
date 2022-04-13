@@ -75,7 +75,7 @@ def search_send_jobs(user_id,keywords,sites):
     if 'sudancareers' in sites:
       jobs_list = ''
       site_url  = f'https://www.sudancareers.com/job-vacancies-search-sudan/{keyword}?'
-      print(f'Searching sudancareers at {site_url}')
+      print(f"Searching sudancareers for '{keyword}' at {site_url}\n")
       html_text = requests.get(site_url).text
       soup = BeautifulSoup(html_text,'lxml')
       jobs = soup.find_all('div',class_='job-description-wrapper',limit=1)
@@ -91,7 +91,7 @@ def search_send_jobs(user_id,keywords,sites):
                       f'Location    : {location}\n' + \
                       f'<a href="{job_details}">More Details</a> \n'
       print(jobs_list)
-      print(f'Done searching sudancareers\n')
+      print(f'------------------------------------------\n')
       if jobs_list != '':
         try:
           bot.send_message(user_id,jobs_list,parse_mode = "html",disable_web_page_preview=True)
@@ -101,7 +101,7 @@ def search_send_jobs(user_id,keywords,sites):
     if 'orooma' in sites:
       jobs_list = ''
       site_url = f'https://orooma.com/jobs/all/?q={keyword}' 
-      print(f'Searching orooma at {site_url}')
+      print(f"Searching orooma for '{keyword}' at {site_url}\n")
       html_text = requests.get(site_url).text
       soup = BeautifulSoup(html_text,'lxml')
       jobs = soup.find_all('div',class_='card_group_item job_group_item',limit=1)
@@ -113,7 +113,7 @@ def search_send_jobs(user_id,keywords,sites):
                       f'Company  : {company_name}\n' +  \
                       f'<a href="{job_details}">More Details</a> \n' 
       print(jobs_list)
-      print(f'Done searching orooma\n')
+      print(f'------------------------------------------\n')
       if jobs_list != '':
         try:
           bot.send_message(user_id,jobs_list,parse_mode = "html",disable_web_page_preview=True)
@@ -123,7 +123,7 @@ def search_send_jobs(user_id,keywords,sites):
     if 'sudanjob' in sites:
       jobs_list = ''
       site_url = f'https://www.sudanjob.net/' 
-      print(f'Searching sudanjob at {site_url}')
+      print(f"Searching sudanjob for '{keyword}' at {site_url}\n")
       html_text = requests.get(site_url).text
       soup = BeautifulSoup(html_text,'lxml')
       jobs = soup.find_all('td' ,class_="module flex-module")
@@ -138,7 +138,7 @@ def search_send_jobs(user_id,keywords,sites):
                         f'Location  : {location}\n' +  \
                         f'<a href="{job_details}">More Details</a> \n' 
       print(jobs_list)
-      print(f'Done searching sudanjob\n')
+      print(f'------------------------------------------\n')
       if jobs_list != '':
         try:
           bot.send_message(user_id,jobs_list,parse_mode = "html",disable_web_page_preview=True)
@@ -153,7 +153,7 @@ def send_jobs(message):
   sites = ['sudancareers','orooma','sudanjob']
   chat_id = message.chat.id
   chat_jobs = message.text.split(',')
-  print(chat_id,chat_jobs)
+  print('Processing user 'chat_id,chat_jobs)
   chat_log(message)
   search_send_jobs(chat_id,chat_jobs,sites)
 
