@@ -153,7 +153,7 @@ def send_jobs(message):
   sites = ['sudancareers','orooma','sudanjob']
   chat_id = message.chat.id
   chat_jobs = message.text.split(',')
-  print('Processing user 'chat_id,chat_jobs)
+  print('Processing user ',chat_id,chat_jobs)
   chat_log(message)
   search_send_jobs(chat_id,chat_jobs,sites)
 
