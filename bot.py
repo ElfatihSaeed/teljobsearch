@@ -72,6 +72,7 @@ def ck1(message):
 
 def search_send_jobs(user_id,keywords,sites):
   for keyword in keywords:
+    keyword = keyword.strip()
     if 'sudancareers' in sites:
       jobs_list = ''
       site_url  = f'https://www.sudancareers.com/job-vacancies-search-sudan/{keyword}?'
