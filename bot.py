@@ -132,7 +132,7 @@ def search_send_jobs(user_id,keywords,sites):
         job_title = job.find('a',class_='a_homelist').text.strip()
         company_name = job.find('font',class_='sudanjob_orang_color').text.strip()
         location = job.find('div',align="left").text.split(' ')[4].strip()
-        job_details = job.find('a',class_='btn_class')['href']
+        job_details = 'https://www.sudanjob.net/' + job.find('a',class_='btn_class')['href']
         if str(job_title).lower() == str(keyword).lower():
           jobs_list +=  f'Job Title   : {job_title}\n' + \
                         f'Company  : {company_name}\n' +  \
