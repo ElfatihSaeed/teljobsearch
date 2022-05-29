@@ -1,4 +1,3 @@
-#test
 import os
 import sys
 import telebot
@@ -172,7 +171,7 @@ def getMessage():
 @server.route("/")
 def webhook():
   bot.remove_webhook()
-  bot.set_webhook(url='https://boiling-anchorage-39680.herokuapp.com/' + API_KEY)
+  bot.set_webhook(url='https://teljobsearchapp.onrender.com/' + API_KEY)
   return "!", 200
 
 
