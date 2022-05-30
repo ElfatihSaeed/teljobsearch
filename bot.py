@@ -1,3 +1,5 @@
+# This code is Telegram bot thatscrape jobs from webistes ans send them to elegram subs
+
 import os
 import sys
 import telebot
